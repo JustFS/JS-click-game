@@ -1,52 +1,76 @@
 const canvas = document.getElementById('canvas');
 const score = document.getElementById('score');
+const days = document.getElementById('days');
 
 let count = 0;
-let getFast = 6000;
-let boolLoop = false;
+let daysRemaining = 60;
+let getFaster = 6000;
+let loopPlay = false;
+
+window.onload = function(){
 
 function start() {
   count = 0;
-  getFast = 6000;
-  score.innerHTML = count;
+  getFaster = 6000;
   canvas.innerHTML = '';
-  boolLoop ? '' : loop(); 
-  boolLoop = true;
+  score.innerHTML = count;
+  days.innerHTML = 60;
+  // make sure to not play loop several times
+  loopPlay ? '' : loop(); 
+  loopPlay = true;
+  loopPlay ? daysLeft() : '';
 };
 
-// SETUP RANDOM ELEMENT POPING
+function daysLeft() {
+  if (loopPlay === true){
+    setTimeout(() => {
+      days.innerHTML = daysRemaining
+    }, 1000);
+    if (daysRemaining > 0){
+    daysRemaining--;
+    daysLeft();
+    } else {
+      canvas.innerHTML = 'You win !';
+    }
+
+  };
+};
+
+
+// setup random element poping
 function loop() {
-  let random = Math.round(Math.random() * getFast);
-  getFast > 700 ? getFast = getFast * 0.90 : getFast;
+  let random = Math.round(Math.random() * getFaster);
+  getFaster > 700 ? getFaster = (getFaster * 0.90) : '';
 
   setTimeout(() => {
     cockroachPop();
     if (canvas.childElementCount > 50){
       canvas.innerHTML = '';
       canvas.innerHTML = 'Game over / score :' + count;
-
+      loopPlay = false;
     } else {
       loop(); 
     } 
   }, random);
 
-  console.log(getFast);
+  console.log(getFaster);
   console.log(canvas.childElementCount);
   console.log(count);
 };
 
-// CREATE RANDOM ELEMENT
+// create random element
 function cockroachPop() {
   const cockroach = document.createElement('span');
 
   cockroach.classList.add('cockroach');
   cockroach.style.top = Math.random() * 500 + 'px';
-  cockroach.style.left = Math.random() * 900 + 'px';
+  cockroach.style.left = Math.random() * 500 + 'px';
+  cockroach.style.transform = 'scale('+ (Math.random() + 0.3) + ')';  
 
   canvas.appendChild(cockroach);
 };
 
-// REMOVE ELEMENT CLICKED
+// remove element clicked
 document.addEventListener("click", function(e){
   const targetElement = e.target || e.srcElement;
 
@@ -56,3 +80,4 @@ document.addEventListener("click", function(e){
     score.innerHTML = count;
   };
 });
+};

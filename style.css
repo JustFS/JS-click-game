@@ -4,18 +4,16 @@ body {
 }
 #canvas {
   border: 2px red solid;
-  width: 90%;
-  height: 90vh;
   position: relative;
   margin: 3rem;
   overflow: hidden;
   height: 500px;
-  width: 900px;
+  width: 500px;
 }
 .cockroach {
   position: absolute;
   transform: translate(-50%, -50%);
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background: blue;
 }
