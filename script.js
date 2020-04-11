@@ -1,83 +1,102 @@
 const canvas = document.getElementById('canvas');
 const score = document.getElementById('score');
 const days = document.getElementById('days');
+const endScreen = document.getElementById('endScreen');
 
-let count = 0;
-let daysRemaining = 60;
-let getFaster = 6000;
-let loopPlay = false;
-
-window.onload = function(){
+let loopPlay = false; 
 
 function start() {
-  count = 0;
-  getFaster = 6000;
+
+  let getFaster = 6000;
+  let count = 0;
+  let daysRemaining = 10;
+
   canvas.innerHTML = '';
   score.innerHTML = count;
-  days.innerHTML = 60;
+  days.innerHTML = daysRemaining;
+
   // make sure to not play loop several times
-  loopPlay ? '' : loop(); 
+  loopPlay ? getFaster = 6000 : loop(); 
+  console.log('après formule => ' + getFaster);
+  
   loopPlay = true;
-  loopPlay ? daysLeft() : '';
-};
 
-function daysLeft() {
-  if (loopPlay === true){
+  function loop() {
+    let randomTimeout = Math.round(Math.random() * getFaster);
+    getFaster > 700 ? getFaster = (getFaster * 0.90) : '';
+  
     setTimeout(() => {
-      days.innerHTML = daysRemaining
-    }, 1000);
-    if (daysRemaining > 0){
-    daysRemaining--;
-    daysLeft();
-    } else {
-      canvas.innerHTML = 'You win !';
-    }
+      if (daysRemaining === 0){
+        youWin();
+      } else if (canvas.childElementCount < 20){
+        virusPop();
+        loop();
+      } else {
+        gameOver();
+      }
+    }, randomTimeout);  
+    console.log(getFaster);
 
+    
   };
+
+canvas.addEventListener('click', () => {
+  daysRemaining--;
+  days.innerHTML = daysRemaining;
+});
+
+const gameOver = () => {
+  endScreen.innerHTML = `<div class="gameOver">Game over <br/>score : ${count} </div>`;
+  endScreen.style.visibility = 'visible';
+  endScreen.style.opacity = '1';
+  loopPlay = false;
 };
 
-
-// setup random element poping
-function loop() {
-  let random = Math.round(Math.random() * getFaster);
-  getFaster > 700 ? getFaster = (getFaster * 0.90) : '';
-
-  setTimeout(() => {
-    cockroachPop();
-    if (canvas.childElementCount > 50){
-      canvas.innerHTML = '';
-      canvas.innerHTML = 'Game over / score :' + count;
-      loopPlay = false;
-    } else {
-      loop(); 
-    } 
-  }, random);
-
-  console.log(getFaster);
-  console.log(canvas.childElementCount);
-  console.log(count);
-};
+const youWin = () => {
+  const accuracy = Math.round(count / 10 * 100);
+  endScreen.innerHTML = `<div class="youWin">Well done ! You overcome this mother fucker ! <br/>Accuarcy: ${accuracy} %</div>`;
+  endScreen.style.visibility = 'visible';
+  endScreen.style.opacity = '1';
+  loopPlay = false; 
+}
 
 // create random element
-function cockroachPop() {
-  const cockroach = document.createElement('span');
+function virusPop() {
+  const virus = new Image();
 
-  cockroach.classList.add('cockroach');
-  cockroach.style.top = Math.random() * 500 + 'px';
-  cockroach.style.left = Math.random() * 500 + 'px';
-  cockroach.style.transform = 'scale('+ (Math.random() + 0.3) + ')';  
+  virus.src = "./media/basic-pics/pngwave.png"
 
-  canvas.appendChild(cockroach);
+  virus.classList.add('virus');
+  virus.style.top = Math.random() * 500 + 'px';
+  virus.style.left = Math.random() * 500 + 'px';
+
+  let x, y;
+  x = y = (Math.random() * 45) + 30;
+  virus.style.setProperty('--x', `${ x }px`);
+  virus.style.setProperty('--y', `${ y }px`);
+
+  let plusMinus = Math.random() < 0.5 ? -1 : 1;
+  let trX = Math.random() * 500 * plusMinus;
+  let trY = Math.random() * 500 * plusMinus;
+  virus.style.setProperty('--trX', `${ trX }%`);
+  virus.style.setProperty('--trY', `${ trY }%`);
+
+  canvas.appendChild(virus);
 };
 
-// remove element clicked
-document.addEventListener("click", function(e){
-  const targetElement = e.target || e.srcElement;
+  // remove element clicked
+  document.addEventListener("click", function(e){
+    const targetElement = e.target || e.srcElement;
 
-  if (targetElement.classList.contains('cockroach')) {
-    targetElement.remove();
-    count++;
-    score.innerHTML = count;
-  };
+    if (targetElement.classList.contains('virus')) {
+      targetElement.remove();
+      count++;
+      score.innerHTML = count;
+    };
+  });
+};
+
+endScreen.addEventListener('click', () => {
+  start();
+  endScreen.style.visibility = 'hidden';
 });
-};

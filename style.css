@@ -1,19 +1,102 @@
-body {
+@import url("https://fonts.googleapis.com/css2?family=Allerta+Stencil&display=swap");
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: "Allerta Stencil", sans-serif;
+  user-select: none;
 }
-#canvas {
-  border: 2px red solid;
+
+body {
+  text-align: center;
+  height: 100vh;
+  background: rgba(238, 238, 238, 0.876);
+}
+body #endScreen {
+  position: absolute;
+  width: 100vw;
+  height: 140%;
+  overflow: hidden;
+  font-size: 5rem;
+  background: rgba(0, 0, 0, 0.452);
+  text-transform: uppercase;
+  z-index: 3;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.1s;
+}
+body #endScreen .gameOver {
+  margin: 10rem auto 0;
+  width: 70%;
+  line-height: 9rem;
+  background: rgba(0, 0, 0, 0.582);
+  color: #c5c5c5;
+  box-shadow: 0 10px 15px black;
+}
+body #endScreen .winGame {
+  color: yellow;
+}
+body #start {
+  margin: 2rem 2rem 0;
+  padding: 1rem 2rem;
+  background: transparent;
+  border: 1px rgba(128, 128, 128, 0.404) solid;
+  box-shadow: 1px 1px 1px #333;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+body #start:hover {
+  box-shadow: 1px 1px 1px #333, inset 0 0 0 40px #ff0000c5;
+  color: white;
+}
+body .kills {
+  margin: 1rem;
+  font-size: 2rem;
+}
+body .kills #score {
+  font-weight: bold;
+  font-size: 3rem;
+  color: #ff0000e1;
+}
+body .confinement {
+  font-size: 1.6rem;
+  user-select: none;
+}
+body #canvas {
+  cursor: crosshair;
+  border: none;
+  border-top: 1px rgba(66, 0, 0, 0.561) solid;
+  border-left: 1px rgba(66, 0, 0, 0.561) solid;
+  background: linear-gradient(135deg, #ff000065 0%, #ff0000ce 100%);
+  box-shadow: 0 10px 15px black;
   position: relative;
-  margin: 3rem;
+  margin: 3rem auto;
   overflow: hidden;
   height: 500px;
   width: 500px;
 }
-.cockroach {
+body #canvas .virus {
   position: absolute;
   transform: translate(-50%, -50%);
-  width: 40px;
-  height: 40px;
-  background: blue;
+  height: var(--y);
+  width: var(--x);
+  transition: 0.1s;
+  animation: virusAnim 14s forwards;
+  user-select: none;
 }
+body #canvas .virus:hover {
+  transform: scale(1.5);
+}
+body #canvas .virus:active {
+  transform: scale(1);
+}
+@keyframes virusAnim {
+  from {
+    transform: translate(0%, 0%);
+  }
+  to {
+    transform: translate(var(--trX), var(--trY));
+  }
+}
+
+/*# sourceMappingURL=style.css.map */
