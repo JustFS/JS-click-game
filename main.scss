@@ -5,7 +5,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Allerta Stencil', sans-serif;
-  // user-select: none;
+  user-select: none;
 }
 body {
   text-align: center;
@@ -30,7 +30,7 @@ body {
       width: 70%;
       line-height: 9rem;
       font-size: 5rem;
-      background: rgba(0, 0, 0, 0.582);
+      background: rgba(0, 0, 0, 0.7);
       color : rgb(197, 197, 197);
       box-shadow: 0 10px 15px black;
     }
@@ -143,10 +143,10 @@ body {
       animation: virusAnim 14s forwards;
 
       &:hover {
-        --scaler: 1.2;
+        --scaler: 1.03;
       }
       &:active {
-        --scaler: 0.8;
+        --scaler: 0.97;
       }
     }
     @keyframes virusAnim {
