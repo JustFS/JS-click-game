@@ -1,3 +1,3 @@
-### Petit jeu en pure javascript
+### Petit jeu en pur javascript
 
 Free to use
